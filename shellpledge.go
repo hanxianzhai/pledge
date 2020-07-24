@@ -18,8 +18,9 @@ func main() {
 
 	log.Println(fmt.Sprintf("interval=%d,count=%d,batch=%d,total=%d",*interval,*count,*batch,*total))
 	schedle(*interval,*count,*batch,*total,func()(error){
-		cmd := exec.Command("/usr/local/bin/lotus-worker sectors pledge")
-
+		cmd := exec.Command("/usr/local/bin/lotus-miner","sectors","pledge")
+		//cmd := exec.Command("git","log", "46db0de8ea2ca7dd945e03c87710973811af8c5d")
+		//cmd := exec.Command("git","--version")
 		buf, err :=cmd.Output()
 		log.Println(fmt.Sprintf("任务执行结果返回：%s",buf))
 		return err
