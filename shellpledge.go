@@ -9,18 +9,22 @@ import (
 )
 type tefunc func() (error)
 func main() {
-	// shellpledge --interval=10 --count=5 --batch=60 --total=200
+	// shellpledge --interval=10 --count=5 --batch=60 --total=200 --start=20
+	// minutes
 	interval := flag.Int("interval", 10, "value of interval")
 	count := flag.Int("count", 5, "value of count")
 	batch := flag.Int("batch", 60, "value of batch")
 	total := flag.Int("total", 100, "value of total")
+	start := flag.Int("start", 100, "value of start")
 	flag.Parse()
+	log.Println(fmt.Sprintf("interval=%d,count=%d,batch=%d,total=%d,start=%d",*interval,*count,*batch,*total,*start))
+	log.Println("任务将在",*start,"分钟后开始执行")
+	time.Sleep(time.Second * 60 * time.Duration(*start))
 
-	log.Println(fmt.Sprintf("interval=%d,count=%d,batch=%d,total=%d",*interval,*count,*batch,*total))
 	schedle(*interval,*count,*batch,*total,func()(error){
 		cmd := exec.Command("/usr/local/bin/lotus-miner","sectors","pledge")
 		//cmd := exec.Command("git","log", "46db0de8ea2ca7dd945e03c87710973811af8c5d")
-		//cmd := exec.Command("git","--version")
+
 		buf, err :=cmd.Output()
 		log.Println(fmt.Sprintf("任务执行结果返回：%s",buf))
 		return err
